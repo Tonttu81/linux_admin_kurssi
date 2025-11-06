@@ -7,6 +7,7 @@ User=<user>
 Group=www-data
 WorkingDirectory=/home/<user>/lemp-app
 Environment="PATH=/home/<user>/lemp-app/venv/bin"
+EnvironmentFile=/home/<user>/lemp-app/lemp-app.env
 ExecStart=/home/<user>/lemp-app/venv/bin/gunicorn --workers 3 --bind 127.0.0.1:5000 app:app
 Restart=always
 RestartSec=5
