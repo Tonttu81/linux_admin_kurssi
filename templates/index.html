@@ -44,7 +44,23 @@
 <body>
   <div class="card">
     <h1>Linux Viikkotehtävä 2</h1>
-    <h1>MySQL server time: {{ server_time }}</h1>
+    <h1>MySQL server time: </h1>
+    <h1 id="time-display">2025-11-06 15:58:31</h1>
   </div>
+
+  <script>
+    async function updateTime() {
+      try {
+        const response = await fetch('/time');
+        const data = await response.json();
+        document.getElementById('time-display').innerText = `${data.sql_server_time}`;
+      } catch (error) {
+        console.error('Error fetching time:', error);
+      }
+    }
+
+    // Update every 1 second
+    setInterval(updateTime, 1000);
+  </script>
 </body>
 </html>
