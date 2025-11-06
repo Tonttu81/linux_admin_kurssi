@@ -29,7 +29,7 @@ def get_server_time():
 def home():
     # Connect to MySQL/MariaDB
     time = get_server_time()
-    return render_template('index.html', server_time=time)
+    return render_template('index.html', sql_server_time=time)
 
 @app.route('/time')
 def time():
