@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 import mysql.connector
 import os
 
@@ -8,18 +8,18 @@ app = Flask(__name__)
 def home():
     # Connect to MySQL/MariaDB
     conn = mysql.connector.connect(
-    host=os.environ['sql_host'],
-    user=os.environ['sql_user'],
-    password=os.environ['sql_password'],
-    database=os.environ['sql_db']
+        host=os.environ['sql_host'],
+        user=os.environ['sql_user'],
+        password=os.environ['sql_password'],
+        database=os.environ['sql_db']
     )
     cursor = conn.cursor()
-    cursor.execute("SELECT 'Hello from MySQL!'")
+    cursor.execute("SELECT NOW()")
     result = cursor.fetchone()
     # Clean up
     cursor.close()
     conn.close()
-    return f"<h1>{result[0]}</h1>"
+    return render_template('index.html', server_time=str(result))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
