@@ -5,7 +5,7 @@ After=network.target
 [Service]
 User=<user>
 WorkingDirectory=/home/<user>/lemp-app/streamlit
-ExecStart=/bin/bash -c "source /home/<user>/lemp-app/venv/bin/activate && streamlit run /home/<user>/lemp-app/streamlit/streamlit-app.py --server.baseUrlPath=/data-analysis"
+ExecStart=/bin/bash -c "source /home/<user>/lemp-app/venv/bin/activate && streamlit run /home/<user>/lemp-app/streamlit/streamlit-app.py --server.baseUrlPath=data-analysis"
 Restart=always
 
 [Install]
