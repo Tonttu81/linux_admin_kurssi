@@ -14,10 +14,10 @@ def main():
 
     data_frame = pd.DataFrame(data, columns=["date", "temperature"])
 
-    scatter = px.scatter(data_frame, x='date', y='temperature')
-    st.plotly_chart(scatter, use_container_width=True)
+    line = px.line(data_frame, x='date', y='temperature')
+    st.plotly_chart(line, use_container_width=True)
 
-    st.write('(ei päivity automaattisesti, päivitetty viimeksi 17.11.)')
+    st.write('(Data haetaan tietokannasta mutta ei päivity automaattisesti, päivitetty viimeksi 17.11.)')
 
 if __name__ == "__main__":
     main()
