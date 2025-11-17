@@ -5,18 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MySQL Server Time</title>
   <style>
-    /* Page background and centering */
     body {
       margin: 0;
       height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      background-color: #222; /* static dark gray */
+      background-color: #222; 
       font-family: Arial, sans-serif;
     }
 
-    /* Center rectangle */
     .card {
       width: 600px;
       height: 250px;
@@ -31,13 +29,25 @@
       padding: 20px;
     }
 
-    /* Header styling */
     h1 {
       color: #fff;
-      font-size: 2rem;  /* adjusted size */
+      font-size: 2rem; 
       font-weight: 600;
       letter-spacing: 0.5px;
       margin: 10px 0;
+    }
+
+    a {
+        color: #1E90FF;
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    a:visited {
+        color: #1E90FF;
     }
   </style>
 </head>
@@ -46,7 +56,9 @@
     <h1>Linux Viikkotehtävä 2</h1>
     <h1>MySQL server time: </h1>
     <h1 id="time-display">{{ sql_server_time }}</h1>
+    <a href="http://86.50.20.36/data-analysis/">Linkki viikkotehtävä 3 sivulle</a>
   </div>
+  
 
   <script>
     async function updateTime() {
@@ -59,7 +71,6 @@
       }
     }
 
-    // Update every 1 second
     setInterval(updateTime, 1000);
   </script>
 </body>
