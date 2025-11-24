@@ -2,6 +2,7 @@ import requests
 import streamlit as st
 import pandas as pd
 
+@st.cache_data
 def retrieve_commits():
         # retrieves amount of commits per week for the last 5 weeks from a github repository
         url = 'https://api.github.com/repos/Tonttu81/linux_admin_kurssi/stats/participation'
@@ -21,16 +22,20 @@ def retrieve_commits():
 
         return commit_counts
 
+@st.cache_data
 def retrieve_weather():
     conn = st.connection('mysql', type='sql')
     query = conn.query('SELECT * FROM weather_data ORDER BY timestamp DESC LIMIT 50;')
+
+
     return query
 
+st.cache_data.clear()
+
 weather_data = retrieve_weather()
-weather_df = pd.DataFrame(weather_data)
 
 st.title('Säädata Helsingistä')
-st.dataframe(weather_df)
+st.dataframe(weather_data)
 
 commit_data = retrieve_commits()
 commit_df = pd.DataFrame({
