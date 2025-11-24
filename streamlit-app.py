@@ -1,23 +1,13 @@
 import streamlit as st
 import pandas as pd
-import plotly.express as px
 
-def retrieve_temperatures_from_db():
+def retrieve_weather():
     conn = st.connection('mysql', type='sql')
-    query = conn.query('SELECT * FROM temperature ORDER BY date ASC;')
+    query = conn.query('SELECT * FROM weather_data ORDER BY timestamp DESC LIMIT 50;')
     return query
 
-def main():
-    st.title("Päivittäinen keskilämpötila Oulussa marraskuun aikana")
-    
-    data = retrieve_temperatures_from_db()
+data = retrieve_weather()
+data_frame = pd.DataFrame(data)
 
-    data_frame = pd.DataFrame(data, columns=["date", "temperature"])
-
-    line = px.line(data_frame, x='date', y='temperature')
-    st.plotly_chart(line, use_container_width=True)
-
-    st.write('(Data haetaan tietokannasta mutta ei päivity automaattisesti, päivitetty viimeksi 17.11.)')
-
-if __name__ == "__main__":
-    main()
+st.title('Säädata Helsingistä')
+st.dataframe(data_frame)
