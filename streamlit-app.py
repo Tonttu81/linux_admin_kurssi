@@ -34,9 +34,10 @@ st.dataframe(weather_df)
 
 commit_data = retrieve_commits()
 commit_df = pd.DataFrame({
-        'Määrä': commit_data
+        'Committien määrä': commit_data
 })
-commit_df.index = [f"{i}. viikkoa sitten" for i in range(len(commit_data))]
+commit_df.index = [f"{i+1}. viikkoa sitten" for i in range(len(commit_data))]
 
-st.title('Committien määrä viimeiseltä viideltä viikolta Linux kurssi Github repositorystä')
+st.title('Committien määrä viimeiseltä viideltä viikolta tämän sivun repositorystä')
 st.dataframe(commit_df)
+st.write('Tiedot haetaan Github APIa käyttäen https://github.com/Tonttu81/linux_admin_kurssi repositorystä')
