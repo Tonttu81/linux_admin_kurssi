@@ -3,9 +3,35 @@ import json
 from datetime import datetime
 
 import mysql.connector
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify, request
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
+
+DB_CONFIG = {
+    "host": os.environ['sql_host'],
+    "user": os.environ['mqtt_user'],
+    "password": os.environ['sql_password'],
+    "database": os.environ['mqtt_db']
+}
+
+@app.route('/api/messages', methods=['GET'])
+def get_messages():
+    """Hae viestit tietokannasta."""
+    limit = request.args.get('limit', 50, type=int)
+    conn = mysql.connector.connect(**DB_CONFIG)
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute('''
+        SELECT id, nickname, message, client_id, created_at
+        FROM messages ORDER BY created_at DESC LIMIT %s
+    ''', (limit,))
+    messages = cursor.fetchall()
+    for msg in messages:
+        msg['created_at'] = msg['created_at'].isoformat()
+    cursor.close()
+    conn.close()
+    return jsonify(messages[::-1])
 
 def get_server_time():
     conn = mysql.connector.connect(
