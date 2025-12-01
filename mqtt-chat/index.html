@@ -140,10 +140,14 @@
             try {
                 const res = await fetch('/api/messages?limit=100');
                 const data = await res.json();
+
                 messagesDiv.innerHTML = '';
+
                 data.forEach(msg => {
-                    addMessage(msg.nickname, msg.text, false, msg.timestamp);
+                    const timestamp = msg.created_at ? new Date(msg.created_at).getTime() : Date.now();
+                    addMessage(msg.nickname, msg.message || msg.text, false, timestamp);
                 });
+
             } catch (err) {
                 addSystemMessage('Virhe ladattaessa aiempia viestejä');
             }
