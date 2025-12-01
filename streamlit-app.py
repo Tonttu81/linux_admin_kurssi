@@ -26,8 +26,6 @@ def retrieve_commits():
 def retrieve_weather():
     conn = st.connection('mysql', type='sql')
     query = conn.query('SELECT * FROM weather_data ORDER BY timestamp DESC LIMIT 50;')
-
-
     return query
 
 st.cache_data.clear()
@@ -41,7 +39,7 @@ commit_data = retrieve_commits()
 commit_df = pd.DataFrame({
         'Committien määrä': commit_data
 })
-commit_df.index = [f"{i+1}. viikkoa sitten" for i in range(len(commit_data))]
+commit_df.index = [f"{i+1} viikkoa sitten" for i in range(len(commit_data))]
 
 st.title('Committien määrä viimeiseltä viideltä viikolta tämän sivun repositorystä')
 st.dataframe(commit_df)
