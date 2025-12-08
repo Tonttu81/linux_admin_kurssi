@@ -1,0 +1,11 @@
+piVersion: v1
+kind: Service
+metadata:
+  name: mysql  # ← DNS: mysql.default.svc.cluster.local
+spec:
+  clusterIP: None  # ← Headless service (ei load balanceria)
+  selector:
+    app: mysql
+  ports:
+  - port: 3306
+    targetPort: 3306
