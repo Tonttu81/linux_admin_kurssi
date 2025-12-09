@@ -53,7 +53,7 @@ def init_db():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     
-@app.route('/api/create_user', methods=['POST'])
+@app.route('/api/user', methods=['POST'])
 def create_user():
     data = request.get_json()
     
@@ -62,6 +62,7 @@ def create_user():
     
     name = data['name']
     email = name.replace(' ', '.').lower()[:20]
+    email = email + '@example.com'
     
     try:
         conn = get_db_connection()
