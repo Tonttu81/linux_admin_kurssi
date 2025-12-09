@@ -31,6 +31,13 @@
         button:hover {
             background: #0056b3;
         }
+        input[type="text"] {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            width: 200px;
+            margin-right: 5px;
+        }
         #result {
             margin-top: 20px;
             padding: 15px;
@@ -50,6 +57,12 @@
             <button onclick="checkHealth()">Check Backend Health</button>
             <button onclick="initDB()">Initialize Database</button>
             <button onclick="getUsers()">Get Users</button>
+        </div>
+
+        <div style="margin-top:20px;">
+            <h3>Create user</h3>
+            <input type="text" id="nameInput" placeholder="Enter name">
+            <button onclick="createUser()">Create user</button>
         </div>
 
         <div id="result"></div>
@@ -88,6 +101,36 @@
             } catch (error) {
                 resultDiv.textContent = 'Error: ' + error.message;
             }
+        }
+
+        async function createUser() {
+            const name = document.getElementById('nameInput').value.trim();
+            if (!name) {
+                resultDiv.textContent = 'Please enter a name';
+                return;
+            }
+
+            try {
+                const response = await fetch('api/user', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name: name })
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    resultDiv.textContent = 'User created: ' + JSON.stringify(data, null, 2);
+                } else {
+                    resultDiv.textContent = 'Error: ' + JSON.stringify(data, null, 2);
+                }
+            } catch (error) {
+                resultDiv.textContent = 'Error: ' + error.message;
+            }
+
+            // Clear input field after submission
+            document.getElementById('nameInput').value = '';
         }
     </script>
 </body>

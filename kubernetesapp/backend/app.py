@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 import mysql.connector
 import os
 
@@ -50,6 +50,28 @@ def init_db():
         cursor.close()
         conn.close()
         return jsonify({"message": "Database initialized"})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
+@app.route('/api/create_user', methods=['POST'])
+def create_user():
+    data = request.get_json()
+    
+    if not data or 'name' not in data:
+        return jsonify({"error": "Missing name"}), 400
+    
+    name = data['name']
+    email = name.replace(' ', '.').lower()[:20]
+    
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        query = "INSERT INTO users (name, email) VALUES (%s, %s)"
+        cursor.execute(query, (name, email))
+        conn.commit()
+        cursor.close()
+        conn.close()
+        return jsonify({"message": "User created"})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
